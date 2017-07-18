@@ -1,0 +1,23 @@
+﻿<Window x:Class="FlippyTileGame.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ignore="http://www.galasoft.ch/ignore"
+        xmlns:controls="clr-namespace:FlippyTileGame.Controls"
+        mc:Ignorable="d ignore"
+        Height="651"
+        Width="532"
+        ResizeMode="NoResize"
+        Title="MVVM Light Application"
+        FontFamily="HP Simplified"
+        >
+    
+   
+
+    <Grid x:Name="LayoutRoot">
+
+        <controls:TileGameControl ></controls:TileGameControl>
+
+    </Grid>
+</Window>
