@@ -1,3 +1,4 @@
+using System.IO;
 using ProductKeyServer.Models;
 
 namespace ProductKeyServer.Migrations
@@ -47,6 +48,11 @@ namespace ProductKeyServer.Migrations
 
             context.Keys.Add(key);
             context.SaveChanges();
+
+            if (File.Exists(@"C:\ProgramData\FlippyTileGame\Registry.txt"))
+            {
+                File.Delete(@"C:\ProgramData\FlippyTileGame\Registry.txt");
+            }
         }
     }
 }

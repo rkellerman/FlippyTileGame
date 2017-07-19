@@ -103,10 +103,16 @@ namespace FlippyTileGame.ViewModel
 
             if ((int)timeLeft == 0)
             {
-                MessageBox.Show("Dude.");
+                
                 GameStopWatch.Stop();
                 CountdownTimer.Stop();
+                CountdownTimerText = "0";
                 HasLost = true;
+                foreach (var tile in TilesCollection)
+                {
+                    tile.IsFlipped = true;
+                }
+                MessageBox.Show("Dude.");
             }
 
             CountdownTimerText = timeLeft.ToString(CultureInfo.InvariantCulture);
@@ -327,21 +333,13 @@ namespace FlippyTileGame.ViewModel
             }
 
             var newLeaderBoardEntries = new List<LeaderboardEntry>();
-            int CompletionTime = 60 - Int32.Parse(CountdownTimerText);
-            var DidTheThing = false;
-            for (int i = 0; i < leaderboardEntries.Count; i++)
+            var completionTime = 60 - Int32.Parse(CountdownTimerText);
+            var didTheThing = false;
+            for (var i = 0; i < leaderboardEntries.Count; i++)
             {
-                if (leaderboardEntries[i].CompletionTime < CompletionTime || DidTheThing)
+                if (leaderboardEntries[i].CompletionTime < completionTime || didTheThing)
                 {
-                    if (DidTheThing)
-                    {
-                        newLeaderBoardEntries.Add(leaderboardEntries[i - 1]);
-                    }
-                    else
-                    {
-                        newLeaderBoardEntries.Add(leaderboardEntries[i]);
-                    }
-
+                    newLeaderBoardEntries.Add(didTheThing ? leaderboardEntries[i - 1] : leaderboardEntries[i]);
                 }
                 else
                 {
@@ -354,19 +352,19 @@ namespace FlippyTileGame.ViewModel
 
                     } while (test.Split(' ').Length != 2 || !textNoSpaces.All(char.IsLetterOrDigit));
 
-                    LeaderboardEntry newEntry = new LeaderboardEntry
+                    var newEntry = new LeaderboardEntry
                     {
                         FullName = test,
-                        CompletionTime = CompletionTime
+                        CompletionTime = completionTime
                     };
 
                     newLeaderBoardEntries.Add(newEntry);
-                    DidTheThing = true;
+                    didTheThing = true;
                 }
             }
 
-            string message = "";
-            for (int i = 1; i < 6; i++)
+            var message = "";
+            for (var i = 1; i < 6; i++)
             {
                 message += i + ".  " + newLeaderBoardEntries[i - 1].FullName + ":  " +
                            newLeaderBoardEntries[i - 1].CompletionTime + " seconds\n";
@@ -374,12 +372,7 @@ namespace FlippyTileGame.ViewModel
 
             MessageBox.Show("Leaderboard:\n\n" + message);
 
-            var newLeaderboard = "";
-
-            foreach (var entry in newLeaderBoardEntries)
-            {
-                newLeaderboard += entry.FullName + " " + entry.CompletionTime + "\n";
-            }
+            var newLeaderboard = newLeaderBoardEntries.Aggregate("", (current, entry) => current + (entry.FullName + " " + entry.CompletionTime + "\n"));
 
             System.IO.File.WriteAllText(FlippyTileGameSettings.LeaderBoardPath, newLeaderboard);
 

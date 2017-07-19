@@ -8,5 +8,6 @@ namespace FlippyTileGame.Settings
         public static string RegistryPath { get; set; } = @"C:\ProgramData\FlippyTileGame\Registry.txt";
         public static TimeSpan MaxGameTime { get; set; } = TimeSpan.FromSeconds(60);
         public static string LeaderBoardPath { get; set; } = @"C:\ProgramData\FlippyTileLeaderBoard\FlippyTileLeaderBoard.txt";
+        public static string ServerPath { get; set; } = @"C:\ProgramData\FlippyTileGame\ServerBaseAddress.txt";
     }
 }
