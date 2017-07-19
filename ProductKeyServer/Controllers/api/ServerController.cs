@@ -48,7 +48,13 @@ namespace ProductKeyServer.Controllers.api
 
         public IHttpActionResult Put(string productKey, string hardwareId, DateTime expirationDate)
         {
-            return null;
+            Key key = _context.Keys.FirstOrDefault(k => k.HardwareId == hardwareId && k.ProductKey == productKey);
+            if (key == null){
+                return BadRequest();
+            }
+            key.ExpirationDate = expirationDate;
+            _context.SaveChanges();
+            return Ok();
         }
 
         public IHttpActionResult Delete(string productKey, string hardwareId)
