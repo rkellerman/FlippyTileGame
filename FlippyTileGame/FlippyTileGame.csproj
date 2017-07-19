@@ -56,6 +56,8 @@
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.2.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -86,7 +88,9 @@
     <Compile Include="Controls\TileGridControl.xaml.cs">
       <DependentUpon>TileGridControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DataServiceInterfaces\IRegistrationDataService.cs" />
     <Compile Include="DataServiceInterfaces\ITileGameDataService.cs" />
+    <Compile Include="DataServices\RegistrationDataService.cs" />
     <Compile Include="DataServices\TileGameDataService.cs" />
     <Compile Include="ExtensionMethods\ShuffleExtension.cs" />
     <Compile Include="Model\FlippyTileModel.cs" />

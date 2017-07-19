@@ -33,10 +33,12 @@ namespace FlippyTileGame.ViewModel
             if (ViewModelBase.IsInDesignModeStatic)
             {
                 SimpleIoc.Default.Register<ITileGameDataService, TileGameDataService>();
+                SimpleIoc.Default.Register<IRegistrationDataService, RegistrationDataService>();
             }
             else
             {
                 SimpleIoc.Default.Register<ITileGameDataService, TileGameDataService>();
+                SimpleIoc.Default.Register<IRegistrationDataService, RegistrationDataService>();
             }
 
             SimpleIoc.Default.Register<MainViewModel>();

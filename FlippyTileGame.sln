@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlippyTileGame", "FlippyTileGame\FlippyTileGame.csproj", "{A6B07D03-9905-47F3-960C-3C04C318B1FE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductKeyServer", "ProductKeyServer\ProductKeyServer.csproj", "{1E8953E8-09A8-495F-9582-20F7B5FF77B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{A6B07D03-9905-47F3-960C-3C04C318B1FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6B07D03-9905-47F3-960C-3C04C318B1FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6B07D03-9905-47F3-960C-3C04C318B1FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E8953E8-09A8-495F-9582-20F7B5FF77B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E8953E8-09A8-495F-9582-20F7B5FF77B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E8953E8-09A8-495F-9582-20F7B5FF77B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E8953E8-09A8-495F-9582-20F7B5FF77B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

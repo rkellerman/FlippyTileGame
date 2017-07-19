@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -28,6 +29,8 @@ namespace FlippyTileGame.ViewModel
     {
 
         private readonly ITileGameDataService _dataService;
+        private readonly IRegistrationDataService _registrationDataService;
+
         private DispatcherTimer CountdownTimer = new DispatcherTimer
         {
             Interval = TimeSpan.FromSeconds(1)
@@ -51,11 +54,45 @@ namespace FlippyTileGame.ViewModel
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        public TileGameViewModel(ITileGameDataService dataService)
+        public TileGameViewModel(ITileGameDataService dataService, IRegistrationDataService registrationDataService)
         {
             _dataService = dataService;
+            _registrationDataService = registrationDataService;
+
+            var result = VerifyAccess(_registrationDataService);
+
             CountdownTimer.Tick += CountdownTimerOnTick;
 
+        }
+
+
+        private static async Task VerifyAccess(IRegistrationDataService _registrationDataService)
+        {
+            if (!_registrationDataService.CheckRegistration()) // user is not registered
+            {
+                var productKey = "";
+                do
+                {
+                    productKey = Interaction.InputBox("Please enter the Product Key provided to you by F2B Services")
+                        .Trim();
+                }
+                while (productKey.Equals(""));
+
+                if (! (await _registrationDataService.Register(productKey)))
+                {
+                    // entered a bad product key, quit
+                    MessageBox.Show("Product Key entered is invalid");
+                    System.Windows.Application.Current.Shutdown();
+                }
+            }
+            else  // user is registered, validate
+            {
+                if (!_registrationDataService.Validate())
+                {
+                    MessageBox.Show("Product Key stored is no longer valid, please contact F2B Services to renew");
+                    System.Windows.Application.Current.Shutdown();
+                }
+            }
         }
 
         private void CountdownTimerOnTick(object sender, EventArgs eventArgs)

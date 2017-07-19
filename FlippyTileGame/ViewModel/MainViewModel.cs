@@ -1,5 +1,11 @@
-﻿using FlippyTileGame.DataServiceInterfaces;
+﻿using System.IO;
+using System.Net.Mime;
+using System.Threading;
+using System.Windows;
+using FlippyTileGame.DataServiceInterfaces;
+using FlippyTileGame.Settings;
 using GalaSoft.MvvmLight;
+using Microsoft.VisualBasic;
 
 namespace FlippyTileGame.ViewModel
 {
@@ -19,6 +25,7 @@ namespace FlippyTileGame.ViewModel
         public MainViewModel(ITileGameDataService dataService)
         {
             _dataService = dataService;
+            
 
         }
 
