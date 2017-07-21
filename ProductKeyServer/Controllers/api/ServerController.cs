@@ -48,7 +48,7 @@ namespace ProductKeyServer.Controllers.api
 
         public IHttpActionResult Put(string productKey, string hardwareId, DateTime expirationDate)
         {
-            Key key = _context.Keys.FirstOrDefault(k => k.HardwareId == hardwareId && k.ProductKey == productKey);
+            var key = _context.Keys.FirstOrDefault(k => k.HardwareId == hardwareId && k.ProductKey == productKey);
             if (key == null){
                 return BadRequest();
             }
@@ -59,7 +59,7 @@ namespace ProductKeyServer.Controllers.api
 
         public IHttpActionResult Delete(string productKey, string hardwareId)
         {
-            Key key = _context.Keys.FirstOrDefault(k => k.ProductKey == productKey && k.HardwareId == hardwareId);
+            var key = _context.Keys.FirstOrDefault(k => k.ProductKey == productKey && k.HardwareId == hardwareId);
             if (key == null) return NotFound();
             key.IsDisabled = true;
             _context.SaveChanges();

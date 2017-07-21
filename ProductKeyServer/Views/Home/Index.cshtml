@@ -1,31 +1,162 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model ProductKeyServer.ViewModels.KeyViewModel
+@{
+    ViewBag.Title = "Product Key Server";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+@using (Html.BeginForm())
+{
+    <!--BEGIN HIDDEN FIELDS AREA-->
+    @Html.HiddenFor(m =>m.EventCommand)
+    @Html.HiddenFor(m => m.Mode)
+    @Html.HiddenFor(m => m.EventArgument)
+    <!--END HIDDEN FIELDS AREA-->
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+    <!--BEGIN SEARCH AREA-->
+
+    if (Model.IsSearchAreaVisible)
+    {
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">Search for Products</h1>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.SearchEntity.ProductKey, "Product Name")
+                    @Html.TextBoxFor(m => m.SearchEntity.ProductKey, new {@class = "form-control"})
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button id="btnSearch" class="btn btn-sm btn-primary" data-pdsa-action="search">
+                    <i class="glyphicon glyphicon-share-alt"></i>
+                    &nbsp;Search
+                </button>
+                <button id="btnReset" class="btn btn-sm btn-primary" data-pdsa-action="resetsearch">
+                    <i class="glyphicon glyphicon-share-alt"></i>
+                    &nbsp;Reset
+                </button>
+                <button id="btnAdd" class="btn btn-sm btn-primary" data-pdsa-action="add">
+                    <i class="glyphicon glyphicon-plus-sign"></i>
+                    &nbsp;Add
+                </button>
+            </div>
+        </div>
+    }
+    <!--END SEARCH AREA-->
+
+    <!--BEGIN DETAIL AREA-->
+    if (Model.IsDetailAreaVisible)
+    {
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1 class="panel-title">Key Information</h1>
+            </div>
+            <div class="panel-body">
+                
+                <!--BEGIN MESSAGE AREA-->
+                <div class="row">
+                    <div class="col-sm-12">
+                        @if (!Model.IsValid)
+                        {
+                            <div class="alert alert-danger alert-dismissable" role="alert">
+                                <button type="button" class="close" data-dismiss="alert">
+                                    <span aria-hidden="true">&times</span>
+                                    <span class="sr-only">Close</span>
+                                </button>
+                                @Html.ValidationSummary(false)
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!--END MESSAGE AREA-->
+                
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Entity.ProductKey, "Product Key")
+                    @Html.TextBoxFor(m => m.Entity.ProductKey, new {@class = "form-control"})
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Entity.HardwareId, "Hardware ID")
+                    @Html.TextBoxFor(m => m.Entity.HardwareId, new {@class = "form-control"})
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Entity.ExpirationDate, "Expiration Date")
+                    @Html.TextBoxFor(m => m.Entity.ExpirationDate, new {@class = "form-control"})
+                </div>
+                <div>
+                    @Html.HiddenFor(m => m.Entity.IsDisabled)
+                    @Html.HiddenFor(m => m.Entity.LastChecked)
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <button id="btnSave" class="btn btn-sm btn-primary" data-pdsa-action="save">
+                            <i class="glyphicon glyphicon-floppy-disk"></i>
+                            &nbsp;Save
+                        </button>
+                        <button id="btnCancel" class="btn btn-sm btn-primary" data-pdsa-action="cancel"
+                                formnovalidate="formnovalidate">
+                            <i class="glyphicon glyphicon-remove-circle"></i>
+                            &nbsp;Cancel
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <!--END DETAIL AREA-->
+
+    <!--BEGIN LIST AREA-->
+    if (Model.IsListAreaVisible)
+    {
+        <div class="table-respnosive">
+            <table class="table table-condensed table-bordered table-striped table-hover">
+                <thead>
+                <tr>
+                    <th class="pdsa-action-button-column">Edit</th>
+                    <th>Product Key</th>
+                    <th>Hardware ID</th>
+                    <th>Expiration Date</th>
+                    <th>Last Checked</th>
+                    <th>IsDisabled</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model.Keys)
+                {
+                    <tr>
+                        <td class="pdsa-action-button-column">
+                            <a href="#" class="btn btn-default btn-sm" data-pdsa-action="edit"
+                               data-pdsa-val="@item.ProductKey">
+                                <i class="glyphicon glyphicon-edit"></i>
+                            </a>
+                        </td>
+                        <td>@item.ProductKey</td>
+                        <td>@item.HardwareId</td>
+                        <td>@item.ExpirationDate</td>
+                        <td>@item.LastChecked</td>
+                        <td>@item.IsDisabled</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+    <!--END LIST AREA-->
+}
+
+@section scripts {
+    <script>
+        $(document).ready(function() {
+            $("[data-pdsa-action]").on("click",
+                function(e) {
+                    e.preventDefault();
+                    $("#EventCommand").val($(this).data("pdsa-action"));
+                    $("#EventArgument").val($(this).data("pdsa-val"));
+
+                    $("form").submit();
+
+                });
+        });
+    </script>
+}
